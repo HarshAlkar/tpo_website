@@ -8,7 +8,6 @@ import Events from './pages/Events';
 import Committee from './pages/Committee';
 import ScrollToTop from './components/ScrollToTop';
 import Preloader from './components/Preloader';
-import RegistrationPopup from './components/RegistrationPopup';
 import FloatingRegisterButton from './components/FloatingRegisterButton';
 
 export default function App() {
@@ -43,8 +42,7 @@ export default function App() {
           <Route path="/committee" element={<Committee />} />
           {/* Other routes: Register, Contact, etc. */}
         </Routes>
-        <RegistrationPopup />
-        <FloatingRegisterButton />
+                       <FloatingRegisterButton />
       </Router>
     </div>
   );
