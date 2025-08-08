@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import { API_ENDPOINTS } from '../config/api';
 
 const years = ['First Year', 'Second Year', 'Third Year', 'Final Year'];
 const branches = ['Computer Engineering', 'Information Technology', 'Artificial Intelligence & Machine Learning (AI&ML)', 'Electronics & Computer Science Engineering (ECS)', 'Mechatronics'];
@@ -47,7 +48,7 @@ export default function Register() {
     if (Object.keys(errs).length === 0) {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:5000/api/register', {
+        const response = await fetch(API_ENDPOINTS.REGISTER, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

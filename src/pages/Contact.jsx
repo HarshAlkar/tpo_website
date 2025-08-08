@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import { API_ENDPOINTS } from '../config/api';
 import swapnilImg from '../assets/SWPNIL.jpg';
 
 export default function Contact() {
@@ -34,7 +35,7 @@ export default function Contact() {
     if (Object.keys(errs).length === 0) {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:5000/api/contact', {
+        const response = await fetch(API_ENDPOINTS.CONTACT, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
