@@ -21,7 +21,15 @@ app.use(cors({
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/tpo-website', {
+console.log('Environment variables check:');
+console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'Set' : 'Not set');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('PORT:', process.env.PORT);
+
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/tpo-website';
+console.log('Using MongoDB URI:', mongoUri);
+
+mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
