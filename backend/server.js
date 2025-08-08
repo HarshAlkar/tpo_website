@@ -8,7 +8,12 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-frontend-domain.onrender.com', 'https://your-frontend-domain.vercel.app']
+    ? [
+        'https://tpo-website-vercel.vercel.app',
+        'https://tpo-website-git-main-harshalkar.vercel.app',
+        'https://tpo-website-harshalkar.vercel.app',
+        'https://your-vercel-domain.vercel.app'  // Replace with your actual Vercel domain
+      ]
     : 'http://localhost:5173',
   credentials: true
 }));
