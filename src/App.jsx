@@ -8,21 +8,25 @@ import Events from './pages/Events';
 import Committee from './pages/Committee';
 import ScrollToTop from './components/ScrollToTop';
 import Preloader from './components/Preloader';
+import RegistrationPopup from './components/RegistrationPopup';
+import FloatingRegisterButton from './components/FloatingRegisterButton';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showContent, setShowContent] = useState(false);
+  const [hasInitialLoad, setHasInitialLoad] = useState(false);
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
+    setHasInitialLoad(true);
     // Add a small delay before showing content for smooth transition
     setTimeout(() => {
       setShowContent(true);
     }, 100);
   };
 
-  // Show preloader while loading
-  if (isLoading) {
+  // Show preloader only on initial load
+  if (isLoading && !hasInitialLoad) {
     return <Preloader onLoadingComplete={handleLoadingComplete} />;
   }
 
@@ -39,6 +43,8 @@ export default function App() {
           <Route path="/committee" element={<Committee />} />
           {/* Other routes: Register, Contact, etc. */}
         </Routes>
+        <RegistrationPopup />
+        <FloatingRegisterButton />
       </Router>
     </div>
   );

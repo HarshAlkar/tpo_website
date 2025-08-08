@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import heroVideo from '../assets/Training & PLACEMENT DEPARTMENT.mp4';
+import HeroRegistrationPopup from './HeroRegistrationPopup';
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
@@ -124,6 +125,9 @@ export default function Hero() {
 
       {/* Performance overlay for better rendering */}
       <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
+      
+      {/* Registration Popup */}
+      <HeroRegistrationPopup />
     </section>
   );
 } 
