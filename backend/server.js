@@ -6,33 +6,26 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-// CORS configuration
-const allowedOrigins = process.env.NODE_ENV === 'production' 
-  ? [
-      'https://tpo-website-vercel.vercel.app',
-      'https://tpo-website-git-main-harshalkar.vercel.app',
-      'https://tpo-website-harshalkar.vercel.app',
-      'https://tpo-website-jzi3.vercel.app',
-      'https://your-vercel-domain.vercel.app'  // Replace with your actual Vercel domain
-    ]
-  : ['http://localhost:5173'];
-
-console.log('Allowed origins:', allowedOrigins);
-
+// CORS configuration - Simplified and more permissive for debugging
 app.use(cors({
-  origin: function (origin, callback) {
-    console.log('Request origin:', origin);
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log('CORS blocked origin:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true, // Allow all origins for now
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
 }));
+
+// Add explicit CORS headers for preflight requests
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 app.use(express.json());
 
 // MongoDB Connection
