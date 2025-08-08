@@ -39,7 +39,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2 sm:gap-3 hover-scale">
           <img src={logo} alt="PVPP COE TPO Logo" className="h-9 w-9 sm:h-11 sm:w-11  object-contain border-none bg-transparent animate-bounce-in" />
           <div className="font-bold text-navy text-lg sm:text-xl font-poppins tracking-wide animate-fade-in">
-            <span className="hidden sm:inline">TPO Department</span>
+            <span className="hidden sm:inline">VPP TPO</span>
             <span className="sm:hidden">TPO</span>
           </div>
         </div>

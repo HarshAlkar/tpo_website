@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 
 const years = ['First Year', 'Second Year', 'Third Year', 'Final Year'];
-const branches = ['Computer Engineering', 'Information Technology', 'Mechanical Engineering', 'Electrical Engineering', 'Civil Engineering', 'Electronics & Telecommunication'];
+const branches = ['Computer Engineering', 'Information Technology', 'Artificial Intelligence & Machine Learning (AI&ML)', 'Electronics & Computer Science Engineering (ECS)', 'Mechatronics'];
 
 export default function Register() {
   const [form, setForm] = useState({
