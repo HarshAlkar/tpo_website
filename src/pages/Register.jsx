@@ -108,8 +108,8 @@ export default function Register() {
 
         {/* Centered Registration Form */}
         <div className="max-w-2xl mx-auto">
-          <div className={`bg-white rounded-2xl shadow-xl p-6 sm:p-8 animate-fade-in-up ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-            <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-6 font-poppins text-center">
+          <div className={`bg-white rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 animate-fade-in-up ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-navy mb-4 sm:mb-6 font-poppins text-center">
               Registration Form
             </h2>
             {submitted ? (
@@ -138,18 +138,18 @@ export default function Register() {
                 </div>
               </div>
             ) : (
-              <form className="space-y-5 stagger-animation" onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <form className="space-y-4 sm:space-y-5 stagger-animation form-mobile" onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div className="animate-fade-in-up">
-                    <label className="block font-poppins mb-2 text-base font-medium">Full Name *</label>
+                    <label className="block font-poppins mb-2 text-sm sm:text-base font-medium">Full Name *</label>
                     <input 
                       name="name" 
                       value={form.name} 
                       onChange={handleChange} 
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 font-poppins transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover-lift text-base" 
+                      className="w-full border border-gray-300 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 font-poppins transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover-lift text-sm sm:text-base touch-friendly-input" 
                       placeholder="Enter your full name"
                     />
-                    {errors.name && <span className="text-red-500 text-sm animate-fade-in">{errors.name}</span>}
+                    {errors.name && <span className="text-red-500 text-xs sm:text-sm animate-fade-in">{errors.name}</span>}
                   </div>
                   <div className="animate-fade-in-up">
                     <label className="block font-poppins mb-2 text-base font-medium">Roll Number *</label>

@@ -27,12 +27,12 @@ const HeroRegistrationPopup = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-2xl max-w-md w-full mx-4 popup-enter">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-white rounded-lg shadow-2xl max-w-sm sm:max-w-md w-full mx-2 sm:mx-4 popup-enter">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-t-lg">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 sm:p-6 rounded-t-lg">
           <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">🎓 Join TPO Department</h2>
+            <h2 className="text-lg sm:text-2xl font-bold">🎓 Join TPO Department</h2>
             <button
               onClick={handleClose}
               className="text-white hover:text-gray-200 transition-colors"

@@ -79,10 +79,10 @@ export default function Contact() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {/* Contact Form */}
-          <div className={`bg-white rounded-2xl shadow-xl p-6 sm:p-8 animate-fade-in-up ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-            <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-6 font-poppins text-center">
+          <div className={`bg-white rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 animate-fade-in-up ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-navy mb-4 sm:mb-6 font-poppins text-center">
               Send us a Message
             </h2>
             {submitted ? (
