@@ -6,7 +6,12 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://your-frontend-domain.onrender.com', 'https://your-frontend-domain.vercel.app']
+    : 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
 
 // MongoDB Connection
@@ -28,6 +33,15 @@ app.use('/api/contact', contactRoutes);
 // Basic route
 app.get('/', (req, res) => {
   res.json({ message: 'TPO Website Backend API' });
+});
+
+// Health check endpoint for Render
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
 });
 
 const PORT = process.env.PORT || 5000;
