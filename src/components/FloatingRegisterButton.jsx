@@ -36,7 +36,7 @@ const FloatingRegisterButton = () => {
         </div>
 
         {/* Pulse Animation */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full animate-ping opacity-20"></div>
+        {/* <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full animate-ping opacity-20"></div> */}
       </div>
     </div>
   );

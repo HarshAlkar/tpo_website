@@ -116,3 +116,5 @@ const HeroRegistrationPopup = () => {
 };
 
 export default HeroRegistrationPopup;
+
+

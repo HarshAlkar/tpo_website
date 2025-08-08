@@ -52,7 +52,7 @@ export default function Navbar() {
               <button
                 key={link.name}
                 onClick={() => navigate(link.href)}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 shadow-lg text-navy font-medium transition-all duration-300 font-poppins animate-fade-in-up text-sm xl:text-base"
+                className="bg-[#8E2DE2] text-white px-4 py-2 rounded-lg hover:bg-navy transform hover:scale-105 shadow-lg text-navy font-medium transition-all duration-300 font-poppins animate-fade-in-up text-sm xl:text-base"
                 style={{animationDelay: `${index * 0.1}s`}}
               >
                 {link.name}

@@ -87,7 +87,7 @@ export default function Hero() {
               href="https://tpo.getflytechnologies.com/" 
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-accent hover:bg-navy text-white font-semibold px-8 sm:px-10 py-4 sm:py-5 rounded-full shadow-xl transition-all font-poppins text-lg sm:text-xl hover-lift hover-glow inline-flex items-center gap-3 group"
+              className="bg-[#8E2DE2] hover:bg-[#6A1BB0] text-white font-semibold px-8 sm:px-10 py-4 sm:py-5 rounded-full shadow-xl transition-all font-poppins text-lg sm:text-xl hover-lift hover-glow inline-flex items-center gap-3 group"
             >
               <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
