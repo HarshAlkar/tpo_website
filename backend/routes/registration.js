@@ -6,8 +6,10 @@ const { sendEmail } = require('../utils/emailService');
 // POST - Create new registration
 router.post('/', async (req, res) => {
   try {
+    console.log('Registration request received:', req.body);
     const registration = new Registration(req.body);
     await registration.save();
+    console.log('Registration saved successfully:', registration._id);
     
     // Send email notification
     const emailResult = await sendEmail(
@@ -32,9 +34,20 @@ router.post('/', async (req, res) => {
     });
   } catch (error) {
     console.error('Registration error:', error);
+    
+    // Provide more specific error messages
+    let errorMessage = 'Registration failed';
+    if (error.name === 'ValidationError') {
+      errorMessage = 'Please check your input data and try again';
+    } else if (error.code === 11000) {
+      errorMessage = 'A registration with this email or roll number already exists';
+    } else if (error.name === 'MongooseServerSelectionError') {
+      errorMessage = 'Database connection error. Please try again later';
+    }
+    
     res.status(400).json({ 
       success: false, 
-      message: 'Registration failed',
+      message: errorMessage,
       error: error.message 
     });
   }

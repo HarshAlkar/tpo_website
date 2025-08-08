@@ -12,6 +12,7 @@ app.use(cors({
         'https://tpo-website-vercel.vercel.app',
         'https://tpo-website-git-main-harshalkar.vercel.app',
         'https://tpo-website-harshalkar.vercel.app',
+        'https://tpo-website-jzi3.vercel.app',
         'https://your-vercel-domain.vercel.app'  // Replace with your actual Vercel domain
       ]
     : 'http://localhost:5173',
@@ -25,7 +26,23 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/tpo-websi
   useUnifiedTopology: true,
 })
 .then(() => console.log('MongoDB connected successfully'))
-.catch(err => console.error('MongoDB connection error:', err));
+.catch(err => {
+  console.error('MongoDB connection error:', err);
+  console.error('Please check your MongoDB Atlas configuration and IP whitelist');
+});
+
+// MongoDB connection event handlers
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('MongoDB disconnected');
+});
+
+mongoose.connection.on('connected', () => {
+  console.log('MongoDB connected');
+});
 
 // Import routes
 const registrationRoutes = require('./routes/registration');
@@ -45,7 +62,17 @@ app.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     timestamp: new Date().toISOString(),
-    uptime: process.uptime()
+    uptime: process.uptime(),
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
+
+// Test endpoint for registration
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'Backend is running',
+    timestamp: new Date().toISOString(),
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
   });
 });
 

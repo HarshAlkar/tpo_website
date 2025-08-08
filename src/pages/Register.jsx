@@ -48,6 +48,9 @@ export default function Register() {
     if (Object.keys(errs).length === 0) {
       setLoading(true);
       try {
+        console.log('Sending registration request to:', API_ENDPOINTS.REGISTER);
+        console.log('Request data:', form);
+        
         const response = await fetch(API_ENDPOINTS.REGISTER, {
           method: 'POST',
           headers: {
@@ -56,7 +59,9 @@ export default function Register() {
           body: JSON.stringify(form),
         });
 
+        console.log('Response status:', response.status);
         const data = await response.json();
+        console.log('Response data:', data);
 
         if (data.success) {
           setSubmitted(true);
@@ -74,11 +79,12 @@ export default function Register() {
             why: '',
           });
         } else {
-          alert('Registration failed: ' + data.message);
+          console.error('Registration failed:', data);
+          alert('Registration failed: ' + (data.message || 'Unknown error'));
         }
       } catch (error) {
         console.error('Registration error:', error);
-        alert('Registration failed. Please try again.');
+        alert('Registration failed. Please check your connection and try again.');
       } finally {
         setLoading(false);
       }
