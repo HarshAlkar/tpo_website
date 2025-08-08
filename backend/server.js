@@ -6,17 +6,32 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
+// CORS configuration
+const allowedOrigins = process.env.NODE_ENV === 'production' 
+  ? [
+      'https://tpo-website-vercel.vercel.app',
+      'https://tpo-website-git-main-harshalkar.vercel.app',
+      'https://tpo-website-harshalkar.vercel.app',
+      'https://tpo-website-jzi3.vercel.app',
+      'https://your-vercel-domain.vercel.app'  // Replace with your actual Vercel domain
+    ]
+  : ['http://localhost:5173'];
+
+console.log('Allowed origins:', allowedOrigins);
+
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? [
-        'https://tpo-website-vercel.vercel.app',
-        'https://tpo-website-git-main-harshalkar.vercel.app',
-        'https://tpo-website-harshalkar.vercel.app',
-        'https://tpo-website-jzi3.vercel.app',
-        'https://your-vercel-domain.vercel.app'  // Replace with your actual Vercel domain
-      ]
-    : 'http://localhost:5173',
-  credentials: true
+  origin: function (origin, callback) {
+    console.log('Request origin:', origin);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 
