@@ -54,9 +54,9 @@ export default function Register() {
         return;
       }
       
-      // Check file size (5MB limit)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('File size should be less than 5MB.');
+          // Check file size (50MB limit)
+    if (file.size > 50 * 1024 * 1024) {
+      alert('File size should be less than 50MB.');
         e.target.value = '';
         return;
       }
@@ -292,7 +292,7 @@ export default function Register() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                           </svg>
                           <p className="text-sm text-gray-600 font-medium">Click to upload resume</p>
-                          <p className="text-xs text-gray-500">PDF, DOC, or DOCX (Max 5MB)</p>
+                          <p className="text-xs text-gray-500">PDF, DOC, or DOCX (Max 50MB)</p>
                         </div>
                       )}
                     </label>

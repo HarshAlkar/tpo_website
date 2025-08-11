@@ -40,7 +40,7 @@ if (fs.existsSync(gitignorePath)) {
 
 console.log('\n🎯 Backend is ready for file uploads!');
 console.log('📝 Supported file types: PDF, DOC, DOCX');
-console.log('📏 Maximum file size: 5MB');
+console.log('📏 Maximum file size: 50MB');
 console.log('🌐 Server running on port 5000');
 
 console.log('\n🔗 API Endpoints:');

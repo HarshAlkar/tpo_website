@@ -4,7 +4,7 @@ This document describes the file upload functionality implemented for the TPO st
 
 ## Overview
 
-The system now supports resume/CV uploads during student registration. Students can upload their resumes in PDF, DOC, or DOCX format with a maximum file size of 5MB.
+The system now supports resume/CV uploads during student registration. Students can upload their resumes in PDF, DOC, or DOCX format with a maximum file size of 50MB.
 
 ## Features
 
@@ -15,7 +15,7 @@ The system now supports resume/CV uploads during student registration. Students 
 
 ### ✅ File Validation
 - File type validation
-- File size limit: 5MB
+- File size limit: 50MB
 - Required field validation
 
 ### ✅ Security Features
@@ -131,7 +131,7 @@ console.log('Uploaded file:', {
 
 ### File Validation Errors
 - **Invalid file type**: Only PDF, DOC, DOCX allowed
-- **File too large**: Maximum 5MB limit
+- **File too large**: Maximum 50MB limit
 - **No file uploaded**: Resume is required
 
 ### Server Errors
@@ -191,7 +191,7 @@ Ensure these are set in production:
 ### Common Issues
 
 #### 1. File Upload Fails
-- Check file size (max 5MB)
+- Check file size (max 50MB)
 - Verify file type (PDF, DOC, DOCX only)
 - Ensure uploads directory exists and is writable
 

@@ -4,6 +4,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { securityHeaders, corsConfig } = require('./security-config');
 require('dotenv').config();
 
 const app = express();
@@ -45,55 +46,25 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB limit
+    fileSize: 50 * 1024 * 1024 // 50MB limit
   }
 });
 
 // Security headers middleware
 app.use((req, res, next) => {
-  // Security headers
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
-  
-  // Content Security Policy
-  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://tpo-website-jzi3.vercel.app https://tpo-website.onrender.com;");
-  
+  // Apply all security headers from configuration
+  Object.entries(securityHeaders).forEach(([header, value]) => {
+    res.setHeader(header, value);
+  });
   next();
 });
 
-// CORS configuration - Allow specific origins
-const allowedOrigins = [
-  'https://tpo-website-jzi3.vercel.app',
-  'https://tpo-website.vercel.app',
-  'http://localhost:3000',
-  'http://localhost:5173'
-];
+// CORS configuration - Using security config
+app.use(cors(corsConfig));
 
-// More permissive CORS for development
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    // Allow all origins in development, specific origins in production
-    if (process.env.NODE_ENV === 'development' || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      console.log('CORS blocked origin:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept', 'X-Requested-With']
-}));
-
-// Body parsing middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// Body parsing middleware - Increased limits for larger file uploads
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 
 // Serve uploaded files statically
 app.use('/uploads', express.static(uploadsDir));
@@ -163,7 +134,7 @@ app.use((error, req, res, next) => {
     if (error.code === 'LIMIT_FILE_SIZE') {
       return res.status(400).json({
         success: false,
-        message: 'File too large. Maximum size is 5MB.'
+        message: 'File too large. Maximum size is 50MB.'
       });
     }
     if (error.code === 'LIMIT_FILE_COUNT') {
