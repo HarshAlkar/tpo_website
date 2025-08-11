@@ -4,7 +4,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { securityHeaders, corsConfig } = require('./security-config');
+const { securityMiddleware, corsMiddleware } = require('./security-middleware');
 require('dotenv').config();
 
 const app = express();
@@ -50,17 +50,11 @@ const upload = multer({
   }
 });
 
-// Security headers middleware
-app.use((req, res, next) => {
-  // Apply all security headers from configuration
-  Object.entries(securityHeaders).forEach(([header, value]) => {
-    res.setHeader(header, value);
-  });
-  next();
-});
+// Comprehensive security middleware - Prevents Chrome warnings
+app.use(securityMiddleware);
 
-// CORS configuration - Using security config
-app.use(cors(corsConfig));
+// CORS middleware - Comprehensive configuration
+app.use(corsMiddleware);
 
 // Body parsing middleware - Increased limits for larger file uploads
 app.use(express.json({ limit: '100mb' }));
