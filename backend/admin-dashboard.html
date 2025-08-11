@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TPO Admin Dashboard - Resume Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .search-bar button {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .search-bar button:hover {
+            background: #5a6fd8;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-right: 5px;
+            transition: all 0.3s;
+        }
+        
+        .download-btn {
+            background: #28a745;
+            color: white;
+        }
+        
+        .download-btn:hover {
+            background: #218838;
+        }
+        
+        .view-btn {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .view-btn:hover {
+            background: #138496;
+        }
+        
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .delete-btn:hover {
+            background: #c82333;
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .file-icon {
+            width: 24px;
+            height: 24px;
+            background: #667eea;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .table-container {
+                font-size: 0.9rem;
+            }
+            
+            th, td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 TPO Admin Dashboard</h1>
+            <p>Resume Management & Student Registrations</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalRegistrations">-</div>
+                <div class="stat-label">Total Registrations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalFiles">-</div>
+                <div class="stat-label">Uploaded Resumes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalSize">-</div>
+                <div class="stat-label">Total Size</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="lastUpload">-</div>
+                <div class="stat-label">Last Upload</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>🔍 Search & Filter</h2>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search by name, email, or roll number...">
+                    <button onclick="searchRegistrations()">Search</button>
+                    <button onclick="refreshData()">Refresh</button>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📚 Student Registrations</h2>
+                <div id="messageContainer"></div>
+                <div class="table-container">
+                    <table id="registrationsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Roll</th>
+                                <th>Branch</th>
+                                <th>Resume</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrationsBody">
+                            <tr>
+                                <td colspan="7" class="loading">Loading registrations...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📁 File Management</h2>
+                <div class="table-container">
+                    <table id="filesTable">
+                        <thead>
+                            <tr>
+                                <th>Filename</th>
+                                <th>Size</th>
+                                <th>Uploaded</th>
+                                <th>Modified</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="filesBody">
+                            <tr>
+                                <td colspan="5" class="loading">Loading files...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+            loadRegistrations();
+            loadFiles();
+        });
+        
+        async function loadDashboard() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/dashboard`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('totalRegistrations').textContent = data.total;
+                    
+                    // Calculate total size and last upload
+                    let totalSize = 0;
+                    let lastUpload = null;
+                    
+                    data.data.forEach(reg => {
+                        if (reg.resume && reg.resume.size) {
+                            totalSize += reg.resume.size;
+                        }
+                        if (reg.createdAt && (!lastUpload || new Date(reg.createdAt) > new Date(lastUpload))) {
+                            lastUpload = reg.createdAt;
+                        }
+                    });
+                    
+                    document.getElementById('totalSize').textContent = (totalSize / 1024 / 1024).toFixed(2) + ' MB';
+                    document.getElementById('lastUpload').textContent = lastUpload ? new Date(lastUpload).toLocaleDateString() : 'N/A';
+                }
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+        
+        async function loadRegistrations() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/dashboard`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayRegistrations(data.data);
+                } else {
+                    showMessage('Error loading registrations: ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error loading registrations:', error);
+                showMessage('Failed to load registrations', 'error');
+            }
+        }
+        
+        async function loadFiles() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/files`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayFiles(data.data);
+                } else {
+                    showMessage('Error loading files: ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error loading files:', error);
+                showMessage('Failed to load files', 'error');
+            }
+        }
+        
+        function displayRegistrations(registrations) {
+            const tbody = document.getElementById('registrationsBody');
+            
+            if (registrations.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="loading">No registrations found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = registrations.map(reg => `
+                <tr>
+                    <td><strong>${reg.name}</strong></td>
+                    <td>${reg.email}</td>
+                    <td>${reg.roll}</td>
+                    <td>${reg.branch}</td>
+                    <td>
+                        ${reg.resume ? `
+                            <div class="file-info">
+                                <div class="file-icon">${getFileExtension(reg.resume.originalName)}</div>
+                                <div>
+                                    <div><strong>${reg.resume.originalName}</strong></div>
+                                    <div style="font-size: 0.8rem; color: #666;">
+                                        ${(reg.resume.size / 1024).toFixed(1)} KB
+                                    </div>
+                                </div>
+                            </div>
+                        ` : '<span style="color: #dc3545;">No resume</span>'}
+                    </td>
+                    <td>${new Date(reg.createdAt).toLocaleDateString()}</td>
+                    <td>
+                        ${reg.resume ? `
+                            <button class="action-btn download-btn" onclick="downloadResume('${reg.resume.filename}')">
+                                📥 Download
+                            </button>
+                            <button class="action-btn view-btn" onclick="viewRegistration('${reg._id}')">
+                                👁️ View
+                            </button>
+                        ` : ''}
+                        <button class="action-btn delete-btn" onclick="deleteRegistration('${reg._id}')">
+                            🗑️ Delete
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function displayFiles(files) {
+            const tbody = document.getElementById('filesBody');
+            
+            if (files.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="loading">No files found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = files.map(file => `
+                <tr>
+                    <td>
+                        <div class="file-info">
+                            <div class="file-icon">${getFileExtension(file.filename)}</div>
+                            <div><strong>${file.filename}</strong></div>
+                        </div>
+                    </td>
+                    <td>${file.sizeFormatted}</td>
+                    <td>${new Date(file.uploadedAt).toLocaleDateString()}</td>
+                    <td>${new Date(file.lastModified).toLocaleDateString()}</td>
+                    <td>
+                        <button class="action-btn download-btn" onclick="downloadResume('${file.filename}')">
+                            📥 Download
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function getFileExtension(filename) {
+            const ext = filename.split('.').pop().toUpperCase();
+            return ext === 'PDF' ? 'PDF' : ext === 'DOC' ? 'DOC' : 'DOCX';
+        }
+        
+        async function downloadResume(filename) {
+            try {
+                window.open(`${API_BASE}/admin/resume/${filename}`, '_blank');
+            } catch (error) {
+                console.error('Error downloading resume:', error);
+                showMessage('Failed to download resume', 'error');
+            }
+        }
+        
+        async function viewRegistration(id) {
+            try {
+                const response = await fetch(`${API_BASE}/admin/registration/${id}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const reg = data.data;
+                    alert(`
+Registration Details:
+Name: ${reg.name}
+Email: ${reg.email}
+Roll: ${reg.roll}
+Branch: ${reg.branch}
+Year: ${reg.year}
+Phone: ${reg.phone}
+Why Join: ${reg.why || 'Not specified'}
+Resume: ${reg.resume ? reg.resume.originalName : 'No resume'}
+Created: ${new Date(reg.createdAt).toLocaleString()}
+                    `);
+                }
+            } catch (error) {
+                console.error('Error viewing registration:', error);
+                showMessage('Failed to view registration', 'error');
+            }
+        }
+        
+        async function deleteRegistration(id) {
+            if (!confirm('Are you sure you want to delete this registration? This action cannot be undone.')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/admin/registration/${id}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('Registration deleted successfully', 'success');
+                    loadDashboard();
+                    loadRegistrations();
+                    loadFiles();
+                } else {
+                    showMessage('Error deleting registration: ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting registration:', error);
+                showMessage('Failed to delete registration', 'error');
+            }
+        }
+        
+        function searchRegistrations() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#registrationsBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+        
+        function refreshData() {
+            loadDashboard();
+            loadRegistrations();
+            loadFiles();
+            document.getElementById('searchInput').value = '';
+            showMessage('Data refreshed successfully', 'success');
+        }
+        
+        function showMessage(message, type) {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = `<div class="${type}">${message}</div>`;
+            
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

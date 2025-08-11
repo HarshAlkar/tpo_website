@@ -15,6 +15,8 @@ export default function Register() {
     email: '',
     why: '',
   });
+  const [resumeFile, setResumeFile] = useState(null);
+  const [resumeFileName, setResumeFileName] = useState('');
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,11 +35,35 @@ export default function Register() {
     if (!form.year) errs.year = 'Required';
     if (!form.phone) errs.phone = 'Required';
     if (!form.email) errs.email = 'Required';
+    if (!resumeFile) errs.resume = 'Resume is required';
     return errs;
   };
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Check file type
+      const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      if (!allowedTypes.includes(file.type)) {
+        alert('Please upload a PDF, DOC, or DOCX file only.');
+        e.target.value = '';
+        return;
+      }
+      
+      // Check file size (5MB limit)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size should be less than 5MB.');
+        e.target.value = '';
+        return;
+      }
+      
+      setResumeFile(file);
+      setResumeFileName(file.name);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -48,15 +74,19 @@ export default function Register() {
     if (Object.keys(errs).length === 0) {
       setLoading(true);
       try {
+        // Create FormData for file upload
+        const formData = new FormData();
+        Object.keys(form).forEach(key => {
+          formData.append(key, form[key]);
+        });
+        formData.append('resume', resumeFile);
+        
         console.log('Sending registration request to:', API_ENDPOINTS.REGISTER);
-        console.log('Request data:', form);
+        console.log('Request data:', formData);
         
         const response = await fetch(API_ENDPOINTS.REGISTER, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(form),
+          body: formData, // Don't set Content-Type header for FormData
         });
 
         console.log('Response status:', response.status);
@@ -78,6 +108,8 @@ export default function Register() {
             email: '',
             why: '',
           });
+          setResumeFile(null);
+          setResumeFileName('');
         } else {
           console.error('Registration failed:', data);
           alert('Registration failed: ' + (data.message || 'Unknown error'));
@@ -206,7 +238,7 @@ export default function Register() {
                     {errors.phone && <span className="text-red-500 text-sm animate-fade-in">{errors.phone}</span>}
                   </div>
                   <div className="animate-fade-in-up">
-                    <label className="block font-poppins mb-2 text-base font-medium">Email ID *</label>
+                    <label className="block font-poppins mb-2 text-base font-medium">College Email ID *</label>
                     <input 
                       name="email" 
                       type="email" 
@@ -229,6 +261,51 @@ export default function Register() {
                     rows="4"
                     placeholder="Tell us about your interest in joining the TPO department..."
                   />
+                </div>
+
+                {/* Resume Upload Field */}
+                <div className="animate-fade-in-up">
+                  <label className="block font-poppins mb-2 text-base font-medium">Resume/CV *</label>
+                  <div className="relative">
+                    <input 
+                      type="file" 
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleFileChange}
+                      className="hidden"
+                      id="resume-upload"
+                    />
+                    <label 
+                      htmlFor="resume-upload"
+                      className="w-full border-2 border-dashed border-gray-300 rounded-lg px-4 py-6 font-poppins transition-all duration-300 hover:border-blue-500 hover:bg-blue-50 cursor-pointer flex flex-col items-center justify-center text-center"
+                    >
+                      {resumeFile ? (
+                        <div className="space-y-2">
+                          <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <p className="text-sm text-gray-600 font-medium">{resumeFileName}</p>
+                          <p className="text-xs text-gray-500">Click to change file</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                          </svg>
+                          <p className="text-sm text-gray-600 font-medium">Click to upload resume</p>
+                          <p className="text-xs text-gray-500">PDF, DOC, or DOCX (Max 5MB)</p>
+                        </div>
+                      )}
+                    </label>
+                  </div>
+                  {errors.resume && <span className="text-red-500 text-sm animate-fade-in mt-2 block">{errors.resume}</span>}
+                  {resumeFile && (
+                    <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      File selected: {resumeFileName}
+                    </div>
+                  )}
                 </div>
 
                 <button 

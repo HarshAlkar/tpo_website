@@ -35,6 +35,28 @@ const registrationSchema = new mongoose.Schema({
   why: {
     type: String,
     trim: true
+  },
+  resume: {
+    filename: {
+      type: String,
+      required: true
+    },
+    originalName: {
+      type: String,
+      required: true
+    },
+    mimetype: {
+      type: String,
+      required: true
+    },
+    size: {
+      type: Number,
+      required: true
+    },
+    path: {
+      type: String,
+      required: true
+    }
   }
 }, {
   timestamps: true

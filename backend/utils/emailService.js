@@ -121,6 +121,14 @@ const emailTemplates = {
               </p>
             </div>
             
+            <div class="section" style="background-color: #fef3c7; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b;">
+              <h4 style="color: #92400e; margin-top: 0; margin-bottom: 15px; font-size: 16px;">📎 Resume Attachment</h4>
+              <p style="color: #92400e; line-height: 1.6; margin: 0; font-size: 16px;">
+                The student's resume (${data.resumeFileName || 'resume'}) has been attached to this email.
+                ${data.resumeSize ? `File size: ${data.resumeSize}` : ''}
+              </p>
+            </div>
+            
             <div class="footer" style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
               <p style="color: #6b7280; font-size: 14px;">
                 This registration was submitted through the TPO website.
@@ -395,11 +403,12 @@ const emailTemplates = {
   })
 };
 
-// Send email function
-const sendEmail = async (to, template, data) => {
+// Send email function with attachment support
+const sendEmail = async (to, template, data, attachmentPath = null) => {
   try {
     console.log('Attempting to send email to:', to);
     console.log('Template:', template);
+    console.log('Attachment path:', attachmentPath);
     
     const emailContent = emailTemplates[template](data);
     
@@ -409,6 +418,14 @@ const sendEmail = async (to, template, data) => {
       subject: emailContent.subject,
       html: emailContent.html
     };
+
+    // Add attachment if provided
+    if (attachmentPath) {
+      mailOptions.attachments = [{
+        filename: data.resumeFileName || 'resume.pdf',
+        path: attachmentPath
+      }];
+    }
 
     const info = await transporter.sendMail(mailOptions);
     console.log('Email sent successfully:', info.messageId);
