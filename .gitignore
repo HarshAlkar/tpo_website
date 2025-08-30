@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Large video files that cause deployment issues
+*.mp4
+*.mov
+*.avi
+*.mkv
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

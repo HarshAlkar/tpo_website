@@ -6,7 +6,8 @@ import seminar from '../assets/seminar.svg'
 import placemnet from '../assets/placemnet.png'
 import tcs from '../assets/tcs.png'
 import tpo from '../assets/tpo.png'
-import registrationVideo from '../assets/Registration Video .mp4'
+// Use external video hosting to avoid deployment issues
+const registrationVideo = 'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4'
 
 const events = [
   {

@@ -20,7 +20,7 @@
       "dest": "backend/server.js"
     },
     {
-      "src": "/(.*)",
+      "src": "/((?!api).)*",
       "dest": "/index.html"
     }
   ],
@@ -85,6 +85,14 @@
   "functions": {
     "backend/server.js": {
       "maxDuration": 30
+    }
+  },
+  "github": {
+    "silent": true
+  },
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--max-old-space-size=4096"
     }
   }
 }

@@ -9,6 +9,7 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     cors: true,
+    historyApiFallback: true,
     headers: {
       'X-Content-Type-Options': 'nosniff',
       'X-Frame-Options': 'SAMEORIGIN',
@@ -22,5 +23,8 @@ export default defineConfig({
         manualChunks: undefined
       }
     }
+  },
+  preview: {
+    historyApiFallback: true
   }
 })
