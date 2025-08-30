@@ -57,6 +57,59 @@ const registrationSchema = new mongoose.Schema({
       type: String,
       required: true
     }
+  },
+  documents: [{
+    type: {
+      type: String,
+      enum: ['marksheet', 'id_proof', 'certificate', 'other'],
+      required: true
+    },
+    filename: {
+      type: String,
+      required: true
+    },
+    originalName: {
+      type: String,
+      required: true
+    },
+    mimetype: {
+      type: String,
+      required: true
+    },
+    size: {
+      type: Number,
+      required: true
+    },
+    path: {
+      type: String,
+      required: true
+    },
+    uploadedAt: {
+      type: Date,
+      default: Date.now
+    }
+  }],
+  interview: {
+    status: {
+      type: String,
+      enum: ['pending', 'selected', 'rejected'],
+      default: null
+    },
+    scheduledDate: {
+      type: Date
+    },
+    scheduledTime: {
+      type: String
+    },
+    venue: {
+      type: String
+    },
+    notes: {
+      type: String
+    },
+    notifiedAt: {
+      type: Date
+    }
   }
 }, {
   timestamps: true

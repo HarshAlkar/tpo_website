@@ -6,6 +6,9 @@ import Contact from './pages/Contact';
 import WhyUs from './pages/WhyUs';
 import Events from './pages/Events';
 import Committee from './pages/Committee';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminProtectedRoute from './components/admin/AdminProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
 import Preloader from './components/Preloader';
 import FloatingRegisterButton from './components/FloatingRegisterButton';
@@ -40,7 +43,12 @@ export default function App() {
           <Route path="/why-us" element={<WhyUs />} />
           <Route path="/events" element={<Events />} />
           <Route path="/committee" element={<Committee />} />
-          {/* Other routes: Register, Contact, etc. */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={
+            <AdminProtectedRoute>
+              <AdminDashboard />
+            </AdminProtectedRoute>
+          } />
         </Routes>
                        <FloatingRegisterButton />
       </Router>
