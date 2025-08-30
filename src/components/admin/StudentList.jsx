@@ -47,6 +47,7 @@ const StudentList = ({ students, onStudentSelect, onRefresh }) => {
             Selected
           </span>
           {scheduledDate && (
+            
             <span className="text-xs text-gray-500">
               {new Date(scheduledDate).toLocaleDateString()}
             </span>
