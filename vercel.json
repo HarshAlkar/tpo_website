@@ -82,11 +82,6 @@
   "env": {
     "NODE_ENV": "production"
   },
-  "functions": {
-    "backend/server.js": {
-      "maxDuration": 30
-    }
-  },
   "github": {
     "silent": true
   },
