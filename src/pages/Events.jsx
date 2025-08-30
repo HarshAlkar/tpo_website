@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import VideoModal from '../components/VideoModal';
 
 import seminar from '../assets/seminar.svg'
 import placemnet from '../assets/placemnet.png'
 import tcs from '../assets/tcs.png'
 import tpo from '../assets/tpo.png'
+import registrationVideo from '../assets/Registration Video .mp4'
 
 const events = [
   {
@@ -69,6 +71,7 @@ const placementDrives = [
 export default function Events() {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -85,12 +88,38 @@ export default function Events() {
           <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
             Explore our latest events, workshops, and placement drives designed to empower students for successful careers.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-            <div className="bg-white/60 backdrop-blur-lg rounded-full px-4 sm:px-6 py-2 shadow-lg hover-lift transition-all duration-300">
-              <span className="text-purple-700 font-semibold text-sm sm:text-base">6 Total Events</span>
+          
+          {/* Header Stats and Video Section */}
+          <div className="flex flex-col lg:flex-row justify-center items-center gap-6 mb-6 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+            {/* Stats */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <div className="bg-white/60 backdrop-blur-lg rounded-full px-4 sm:px-6 py-2 shadow-lg hover-lift transition-all duration-300">
+                <span className="text-purple-700 font-semibold text-sm sm:text-base">6 Total Events</span>
+              </div>
+              <div className="bg-white/60 backdrop-blur-lg rounded-full px-4 sm:px-6 py-2 shadow-lg hover-lift transition-all duration-300">
+                <span className="text-blue-700 font-semibold text-sm sm:text-base">550+ Participants</span>
+              </div>
             </div>
-            <div className="bg-white/60 backdrop-blur-lg rounded-full px-4 sm:px-6 py-2 shadow-lg hover-lift transition-all duration-300">
-              <span className="text-blue-700 font-semibold text-sm sm:text-base">550+ Participants</span>
+            
+            {/* Video Player Button */}
+            <div 
+              className="relative group cursor-pointer"
+              onClick={() => setIsVideoModalOpen(true)}
+            >
+              <div className="relative bg-gradient-to-br from-red-500 to-purple-600 rounded-2xl p-4 text-center hover-lift transition-all duration-300 hover-glow min-w-[280px]">
+                <div className="absolute inset-0 bg-black/20 rounded-2xl group-hover:bg-black/10 transition-all duration-300"></div>
+                <div className="relative z-10 flex items-center gap-3">
+                  <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-sm font-bold text-white">Registration Guide</h3>
+                    <p className="text-white/90 text-xs">Watch Tutorial Video</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -282,6 +311,14 @@ export default function Events() {
           </div>
         </div>
       </div>
+      
+      {/* Video Modal */}
+      <VideoModal 
+        isOpen={isVideoModalOpen}
+        onClose={() => setIsVideoModalOpen(false)}
+        videoSrc={registrationVideo}
+        title="Registration Process Guide"
+      />
     </div>
   );
 } 
